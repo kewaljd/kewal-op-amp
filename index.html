@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Op-Amp Explorer Pro</title>
+<title>Kewal Op-Amp Virtual Lab</title>
 
 <style>
 :root{
@@ -25,6 +25,10 @@ body{
   display:flex;
   background:var(--bg);
   color:var(--text);
+}
+
+html{
+scroll-behavior:smooth;
 }
 
 /* SIDEBAR */
@@ -71,6 +75,16 @@ body{
   margin-bottom:20px;
 }
 
+.card:hover{
+transform:translateY(-5px);
+transition:0.3s;
+box-shadow:0 10px 25px rgba(0,0,0,0.3);
+}
+
+button:hover{
+box-shadow:0 0 10px var(--accent);
+}
+
 .highlight{
   color:var(--accent);
 }
@@ -102,6 +116,12 @@ iframe{
   border-radius:8px;
   cursor:pointer;
 }
+
+@media(max-width:500px){
+h1{font-size:26px;}
+h2{font-size:18px;}
+}
+
 </style>
 </head>
 
@@ -110,7 +130,7 @@ iframe{
 <button class="toggle" onclick="toggleTheme()">Toggle</button>
 
 <div class="sidebar">
-<h2>Op-Amp Lab</h2>
+<h2>Kewal Lab ⚡</h2>
 
 <button onclick="load('home')">Home</button>
 <button onclick="load('inv')">Inverting</button>
@@ -177,7 +197,7 @@ animation:fadeIn 1s ease;
 ">
 
 <h1 style="font-size:48px;margin-bottom:10px;letter-spacing:1px;">
-⚡ Op-Amp Virtual Lab
+⚡ Kewal's Op-Amp Virtual Lab
 </h1>
 
 <p style="font-size:20px;opacity:0.9;">
@@ -344,6 +364,18 @@ Learning becomes 10x faster this way.
 
 </div>
 
+<div style="
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:14px;
+opacity:0.7;
+border-top:1px solid #334155;
+">
+© 2026 Kewal. All Rights Reserved. <br>
+This project is developed for educational and demonstration purposes.
+</div>
+
 
 <!-- ANIMATION STYLE -->
 <style>
@@ -449,6 +481,18 @@ All current flows through Rin and Rf, forming a closed feedback loop.
 
 <iframe src="https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EIALI1QA3CENQBbTEICmAWiQoAfACgoUYAHkoAD0SNG7KEk5Uokgrfup4CEVAzkPCAPT6hsAAhuYU9i4OVjZ2VG44ysEUJFBKYIhaKQDmSciEBP6BRgDuYcgRNCyRUFRE7PG+AQYlZZw2tTEVdQ0iTUGlFuUOSJKS1Uh09bAJfS2DsbZIwxEjkj2FzcADlta2o1DRkeuzwNDzK-uHq+tQCgjMBSdniG2Ly8NLN3eUj0XAWa12nUoK9mGtpo0-rJATVga9tHEIZ5iu4ULA7k5EmZZIomsA-OAIPogA"></iframe>
 
+</div>
+
+<div style="
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:14px;
+opacity:0.7;
+border-top:1px solid #334155;
+">
+© 2026 Kewal. All Rights Reserved. <br>
+This project is developed for educational and demonstration purposes.
 </div>
 
 `;
@@ -559,6 +603,18 @@ There is <b>no phase inversion</b>:
 
 <iframe src="https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EJhqAG4QhqALaYhAUwC0SFAD4AUFCjAA8lAAeiRo3ZQknKlAAsBa7dTwEIqBnLuEAel36wADuphS21kh2NlF07K44fgEGIWYInFaaUeGZ8T7+egbQqelQVEQZ4WVxsAlQcsiEiQXARWF2VVAWVlW5HvU0BE2BKeaWznZdpeW9QwYAhqHI2eGT0bkoUApzFCSbYIgauwDm2w2EIvnDi9GlrONT1W4XScBHiyUdJcz2M5cG0u9uuUoCUcjUfFAgm4NjB6o5FHMTNJ5PlgL5wBBdEA"></iframe>
 
+</div>
+
+<div style="
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:14px;
+opacity:0.7;
+border-top:1px solid #334155;
+">
+© 2026 Kewal. All Rights Reserved. <br>
+This project is developed for educational and demonstration purposes.
 </div>
 
 `;
@@ -685,6 +741,18 @@ This allows controlled signal mixing.
 
 </div>
 
+<div style="
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:14px;
+opacity:0.7;
+border-top:1px solid #334155;
+">
+© 2026 Kewal. All Rights Reserved. <br>
+This project is developed for educational and demonstration purposes.
+</div>
+
 `;
 }
 
@@ -800,6 +868,18 @@ This property is called <b>CMRR (Common Mode Rejection Ratio)</b>.
 
 <iframe src="https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EJhqAG4QhqALaYhAUwC0SFAD4AUFCjAA5lAAeFTlShUi7KEgtRmAFlTwEIgPS79wUafOWNCx2DtbsrjiKKpFQGOTuqBDRCV56BgBK-shUwUFQnLZBEQlQAO5uKLByCOwiUAoAhibS8qk+0ln2gax2OVasxXXliFSu1Ug0ik0tyAhtBgDyWU6Mll1QTgUho7AxcZHzwJlmyA6aa33ng6jDs1WItVPNrd4G0Cc5uT3rRbsl44Q5q8jFlPlYbFYWMFnNdDu8RlD+rlEWFrlAAQQgWlgPDTmsJpDglc-nUMZ5gbiwecNqs7BM0WSsT5SstaesVvidm5ydiWR9EdSqXRwiSmQYGqCBQ4Ods0Y0KCR6mBEBpFYYGhRCJjUsAPOAILogA"></iframe>
 
+</div>
+
+<div style="
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:14px;
+opacity:0.7;
+border-top:1px solid #334155;
+">
+© 2026 Kewal. All Rights Reserved. <br>
+This project is developed for educational and demonstration purposes.
 </div>
 
 `;
@@ -928,6 +1008,18 @@ The capacitor stores charge and integrates the input signal:
 
 </div>
 
+<div style="
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:14px;
+opacity:0.7;
+border-top:1px solid #334155;
+">
+© 2026 Kewal. All Rights Reserved. <br>
+This project is developed for educational and demonstration purposes.
+</div>
+
 `;
 }
 
@@ -1046,6 +1138,18 @@ Almost every electronic device you use today depends on Op-Amps in some form.
 <li>Smart sensors and IoT</li>
 </ul>
 
+</div>
+
+<div style="
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:14px;
+opacity:0.7;
+border-top:1px solid #334155;
+">
+© 2026 Kewal. All Rights Reserved. <br>
+This project is developed for educational and demonstration purposes.
 </div>
 
 `;
@@ -1184,6 +1288,18 @@ Understanding their behavior allows engineers to design complex systems such as 
 This virtual lab provides a complete conceptual and practical understanding of Op-Amps.
 </p>
 
+</div>
+
+<div style="
+text-align:center;
+margin-top:40px;
+padding:15px;
+font-size:14px;
+opacity:0.7;
+border-top:1px solid #334155;
+">
+© 2026 Kewal. All Rights Reserved. <br>
+This project is developed for educational and demonstration purposes.
 </div>
 
 `;
