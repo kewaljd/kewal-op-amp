@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Op-Amp Explorer Pro</title>
+
+<style>
+:root{
+  --bg:#0f172a;
+  --card:#1e293b;
+  --text:white;
+  --accent:#38bdf8;
+}
+
+.light{
+  --bg:#f1f5f9;
+  --card:white;
+  --text:#0f172a;
+}
+
+body{
+  margin:0;
+  font-family:'Segoe UI',sans-serif;
+  display:flex;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* SIDEBAR */
+.sidebar{
+  width:260px;
+  height:100vh;
+  background:#020617;
+  padding:20px;
+  position:fixed;
+  overflow:auto;
+}
+
+.sidebar h2{
+  text-align:center;
+  color:var(--accent);
+}
+
+.sidebar button{
+  width:100%;
+  padding:12px;
+  margin:6px 0;
+  border:none;
+  background:#1e293b;
+  color:white;
+  border-radius:10px;
+  cursor:pointer;
+}
+
+.sidebar button:hover{
+  background:var(--accent);
+}
+
+/* MAIN */
+.main{
+  margin-left:270px;
+  padding:30px;
+  width:100%;
+}
+
+.card{
+  background:var(--card);
+  padding:20px;
+  border-radius:14px;
+  margin-bottom:20px;
+}
+
+.highlight{
+  color:var(--accent);
+}
+
+iframe{
+  width:100%;
+  height:450px;
+  border:none;
+  border-radius:12px;
+}
+
+.toggle{
+  position:fixed;
+  top:20px;
+  right:20px;
+  background:var(--accent);
+  border:none;
+  padding:10px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.open{
+  margin-top:10px;
+  padding:10px;
+  border:none;
+  background:var(--accent);
+  color:white;
+  border-radius:8px;
+  cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<button class="toggle" onclick="toggleTheme()">Toggle</button>
+
+<div class="sidebar">
+<h2>Op-Amp Lab</h2>
+
+<button onclick="load('home')">Home</button>
+<button onclick="load('inv')">Inverting</button>
+<button onclick="load('non')">Non-Inverting</button>
+<button onclick="load('sum')">Summing</button>
+<button onclick="load('diff')">Differential</button>
+<button onclick="load('int')">Integrator</button>
+<button onclick="load('apps')">Applications</button>
+<button onclick="load('docs')">Documentation</button>
+</div>
+
+<div class="main" id="content"></div>
+
+<script>
+
+function toggleTheme(){
+document.body.classList.toggle("light");
+}
+
+function load(type){
+
+let html="";
+
+/* TEMPLATE */
+function section(title, theory, formula, desc, falstad){
+return `
+<h1>${title}</h1>
+
+<div class="card">
+<h2>Theory</h2>
+<p>${theory}</p>
+</div>
+
+<div class="card">
+<h2>Formula</h2>
+<p class="highlight">${formula}</p>
+</div>
+
+<div class="card">
+<h2>Description</h2>
+<p>${desc}</p>
+</div>
+
+<div class="card">
+<h2>Simulation</h2>
+${falstad}
+</div>
+`;
+}
+
+/* HOME */
+if(type==="home"){
+html=`
+
+<!-- HERO -->
+<div style="
+background:linear-gradient(135deg,#0ea5e9,#6366f1,#9333ea);
+padding:60px 30px;
+border-radius:20px;
+text-align:center;
+color:white;
+box-shadow:0 20px 60px rgba(0,0,0,0.6);
+animation:fadeIn 1s ease;
+">
+
+<h1 style="font-size:48px;margin-bottom:10px;letter-spacing:1px;">
+⚡ Op-Amp Virtual Lab
+</h1>
+
+<p style="font-size:20px;opacity:0.9;">
+Learn • Visualize • Master Electronics
+</p>
+
+<p style="margin-top:15px;font-size:15px;">
+Interactive simulations + Deep theory + Real-world applications
+</p>
+
+</div>
+
+
+<!-- QUICK STATS -->
+<div style="display:flex;gap:15px;margin-top:25px;flex-wrap:wrap;">
+<div class="card" style="flex:1;text-align:center;">⚡ 5+ Circuits</div>
+<div class="card" style="flex:1;text-align:center;">🔬 Live Simulation</div>
+<div class="card" style="flex:1;text-align:center;">🧠 Concept Based</div>
+<div class="card" style="flex:1;text-align:center;">📊 Real Applications</div>
+</div>
+
+
+<!-- ABOUT -->
+<div class="card">
+<h2>🚀 About</h2>
+<p>
+<span class="highlight">Op-Amp Explorer Pro</span> is an advanced virtual lab designed to transform how you learn electronics.  
+Instead of memorizing formulas, you interact with real circuits and observe behavior live.
+</p>
+</div>
+
+
+<!-- GLASS CARDS -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;">
+
+<div class="card" style="backdrop-filter:blur(10px);background:rgba(255,255,255,0.05);">
+<h3>🔁 Inverting</h3>
+<p>Phase inversion + controlled gain</p>
+</div>
+
+<div class="card" style="backdrop-filter:blur(10px);background:rgba(255,255,255,0.05);">
+<h3>➕ Non-Inverting</h3>
+<p>High gain without phase change</p>
+</div>
+
+<div class="card" style="backdrop-filter:blur(10px);background:rgba(255,255,255,0.05);">
+<h3>➕ Summing</h3>
+<p>Multiple signal addition</p>
+</div>
+
+<div class="card" style="backdrop-filter:blur(10px);background:rgba(255,255,255,0.05);">
+<h3>⚖️ Differential</h3>
+<p>Signal comparison & noise rejection</p>
+</div>
+
+<div class="card" style="backdrop-filter:blur(10px);background:rgba(255,255,255,0.05);">
+<h3>📈 Integrator</h3>
+<p>Mathematical signal processing</p>
+</div>
+
+</div>
+
+
+<!-- LEARNING FLOW -->
+<div class="card">
+<h2>🔬 Learning Flow</h2>
+
+<div style="display:flex;gap:20px;flex-wrap:wrap;">
+
+<div style="flex:1;text-align:center;">
+<h3>📘 Theory</h3>
+<p>Understand concept deeply</p>
+</div>
+
+<div style="flex:1;text-align:center;">
+<h3>📐 Formula</h3>
+<p>Mathematical understanding</p>
+</div>
+
+<div style="flex:1;text-align:center;">
+<h3>🧪 Simulation</h3>
+<p>Visualize real behavior</p>
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ANIMATED BAR -->
+<div class="card">
+<h2>📊 Concepts Coverage</h2>
+
+<div style="margin-top:10px;">
+<div style="margin-bottom:10px;">Voltage Gain</div>
+<div style="background:#1e293b;height:8px;border-radius:10px;">
+<div style="width:90%;height:8px;background:#38bdf8;border-radius:10px;"></div>
+</div>
+
+<div style="margin:10px 0;">Phase Shift</div>
+<div style="background:#1e293b;height:8px;border-radius:10px;">
+<div style="width:85%;height:8px;background:#6366f1;border-radius:10px;"></div>
+</div>
+
+<div style="margin:10px 0;">Signal Processing</div>
+<div style="background:#1e293b;height:8px;border-radius:10px;">
+<div style="width:95%;height:8px;background:#22c55e;border-radius:10px;"></div>
+</div>
+</div>
+
+</div>
+
+
+<!-- APPLICATIONS -->
+<div class="card">
+<h2>🌍 Applications</h2>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;">
+<div>🎧 Audio Systems</div>
+<div>🏥 Medical Devices</div>
+<div>📡 Communication</div>
+<div>⚙️ Robotics</div>
+<div>🎚️ Filters</div>
+</div>
+
+</div>
+
+
+<!-- WHY IMPORTANT -->
+<div class="card">
+<h2>🎯 Why Important?</h2>
+
+<p>
+Op-Amps are the backbone of analog electronics.  
+Understanding them opens doors to electronics, robotics, AI hardware, and engineering systems.
+</p>
+
+</div>
+
+
+<!-- HOW TO USE -->
+<div class="card">
+<h2>⚡ How to Use</h2>
+
+<ol>
+<li>Select circuit</li>
+<li>Read theory</li>
+<li>Observe formula</li>
+<li>Run simulation</li>
+<li>Analyze output</li>
+</ol>
+
+</div>
+
+
+<!-- PRO TIP -->
+<div class="card">
+<h2>🔥 Pro Tip</h2>
+
+<p>
+Change values in Falstad simulation and observe waveform changes.  
+Learning becomes 10x faster this way.
+</p>
+
+</div>
+
+
+<!-- ANIMATION STYLE -->
+<style>
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(20px);}
+to{opacity:1;transform:translateY(0);}
+}
+</style>
+
+`;
+}
+
+/* INVERTING */
+if(type==="inv"){
+html=`
+
+<h1>🔁 Inverting Amplifier</h1>
+
+<!-- THEORY -->
+<div class="card">
+<h2>🧠 Concept</h2>
+<p>
+In an Inverting Amplifier, the input signal is applied to the <b>negative terminal</b> of the Op-Amp while the positive terminal is grounded.
+Due to this configuration, the output signal is <span class="highlight">180° out of phase</span> with the input.
+</p>
+</div>
+
+<!-- WORKING -->
+<div class="card">
+<h2>⚙️ Working Principle</h2>
+<ul>
+<li>Input current flows through <b>Rin</b></li>
+<li>Op-Amp maintains <b>virtual ground</b> at inverting terminal</li>
+<li>Feedback resistor <b>Rf</b> controls output voltage</li>
+<li>Output adjusts to keep input difference ≈ 0</li>
+</ul>
+</div>
+
+<!-- FORMULA -->
+<div class="card">
+<h2>📐 Formula</h2>
+<p class="highlight">Vout = -(Rf / Rin) × Vin</p>
+</div>
+
+<!-- GAIN -->
+<div class="card">
+<h2>📊 Gain Analysis</h2>
+<ul>
+<li>If Rf > Rin → High Gain</li>
+<li>If Rf = Rin → Gain = -1</li>
+<li>If Rf < Rin → Low Gain</li>
+</ul>
+</div>
+
+<!-- PHASE -->
+<div class="card">
+<h2>🔄 Phase Behavior</h2>
+<p>
+Input and output are completely inverted:
+</p>
+
+<div style="display:flex;justify-content:space-between;">
+<div>📈 Input:  +ve → -ve → +ve</div>
+<div>📉 Output: -ve → +ve → -ve</div>
+</div>
+
+</div>
+
+<!-- CURRENT FLOW -->
+<div class="card">
+<h2>🔌 Current Flow Insight</h2>
+<p>
+No current enters the Op-Amp input (ideal case).  
+All current flows through Rin and Rf, forming a closed feedback loop.
+</p>
+</div>
+
+<!-- ADVANCED -->
+<div class="card">
+<h2>🧪 Advanced Insight</h2>
+<ul>
+<li>Virtual ground concept stabilizes circuit</li>
+<li>Feedback ensures linear amplification</li>
+<li>Bandwidth decreases with gain increase</li>
+<li>Used in precision signal processing</li>
+</ul>
+</div>
+
+<!-- APPLICATIONS -->
+<div class="card">
+<h2>🌍 Applications</h2>
+<ul>
+<li>Audio signal inversion</li>
+<li>Signal conditioning</li>
+<li>Analog computation</li>
+<li>Active filters</li>
+</ul>
+</div>
+
+<!-- SIMULATION -->
+<div class="card">
+<h2>🔬 Simulation</h2>
+
+<iframe src="https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EIALI1QA3CENQBbTEICmAWiQoAfACgoUYAHkoAD0SNG7KEk5Uokgrfup4CEVAzkPCAPT6hsAAhuYU9i4OVjZ2VG44ysEUJFBKYIhaKQDmSciEBP6BRgDuYcgRNCyRUFRE7PG+AQYlZZw2tTEVdQ0iTUGlFuUOSJKS1Uh09bAJfS2DsbZIwxEjkj2FzcADlta2o1DRkeuzwNDzK-uHq+tQCgjMBSdniG2Ly8NLN3eUj0XAWa12nUoK9mGtpo0-rJATVga9tHEIZ5iu4ULA7k5EmZZIomsA-OAIPogA"></iframe>
+
+</div>
+
+`;
+}
+
+/* NON-INVERTING */
+if(type==="non"){
+html=`
+
+<h1>➕ Non-Inverting Amplifier</h1>
+
+<!-- THEORY -->
+<div class="card">
+<h2>🧠 Concept</h2>
+<p>
+In a Non-Inverting Amplifier, the input signal is applied to the <b>positive terminal</b> of the Op-Amp.
+Unlike the inverting configuration, the output signal is <span class="highlight">in phase with the input</span>.
+</p>
+</div>
+
+<!-- WORKING -->
+<div class="card">
+<h2>⚙️ Working Principle</h2>
+<ul>
+<li>Input signal directly goes to positive terminal</li>
+<li>Negative terminal receives feedback from output</li>
+<li>Op-Amp adjusts output to maintain <b>Vin+ ≈ Vin-</b></li>
+<li>Feedback network controls amplification</li>
+</ul>
+</div>
+
+<!-- FORMULA -->
+<div class="card">
+<h2>📐 Formula</h2>
+<p class="highlight">Vout = (1 + Rf / R1) × Vin</p>
+</div>
+
+<!-- GAIN -->
+<div class="card">
+<h2>📊 Gain Characteristics</h2>
+<ul>
+<li>Gain is always <b>≥ 1</b></li>
+<li>If Rf = 0 → Gain = 1 (Buffer mode)</li>
+<li>Increasing Rf increases gain</li>
+<li>Stable and linear amplification</li>
+</ul>
+</div>
+
+<!-- PHASE -->
+<div class="card">
+<h2>🔄 Phase Behavior</h2>
+<p>
+There is <b>no phase inversion</b>:
+</p>
+
+<div style="display:flex;justify-content:space-between;">
+<div>📈 Input:  +ve → -ve → +ve</div>
+<div>📈 Output: +ve → -ve → +ve</div>
+</div>
+
+</div>
+
+<!-- IMPEDANCE -->
+<div class="card">
+<h2>⚡ Impedance Insight</h2>
+<ul>
+<li>Very high input impedance → almost no current drawn</li>
+<li>Low output impedance → strong output drive</li>
+<li>Ideal for sensor signals</li>
+</ul>
+</div>
+
+<!-- ADVANCED -->
+<div class="card">
+<h2>🧪 Advanced Insight</h2>
+<ul>
+<li>Acts as buffer when gain = 1</li>
+<li>Maintains signal integrity</li>
+<li>Less noise sensitive compared to inverting type</li>
+<li>Widely used in instrumentation circuits</li>
+</ul>
+</div>
+
+<!-- COMPARISON -->
+<div class="card">
+<h2>⚖️ Comparison with Inverting</h2>
+<ul>
+<li>No phase change (Inverting has 180° shift)</li>
+<li>Higher input impedance</li>
+<li>Gain always positive</li>
+</ul>
+</div>
+
+<!-- APPLICATIONS -->
+<div class="card">
+<h2>🌍 Applications</h2>
+<ul>
+<li>Voltage buffer</li>
+<li>Sensor interfacing</li>
+<li>Audio amplification</li>
+<li>Data acquisition systems</li>
+</ul>
+</div>
+
+<!-- SIMULATION -->
+<div class="card">
+<h2>🔬 Simulation</h2>
+
+<iframe src="https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EJhqAG4QhqALaYhAUwC0SFAD4AUFCjAA8lAAeiRo3ZQknKlAAsBa7dTwEIqBnLuEAel36wADuphS21kh2NlF07K44fgEGIWYInFaaUeGZ8T7+egbQqelQVEQZ4WVxsAlQcsiEiQXARWF2VVAWVlW5HvU0BE2BKeaWznZdpeW9QwYAhqHI2eGT0bkoUApzFCSbYIgauwDm2w2EIvnDi9GlrONT1W4XScBHiyUdJcz2M5cG0u9uuUoCUcjUfFAgm4NjB6o5FHMTNJ5PlgL5wBBdEA"></iframe>
+
+</div>
+
+`;
+}
+
+/* SUMMING */
+if(type==="sum"){
+html=`
+
+<h1>➕ Summing Amplifier</h1>
+
+<!-- THEORY -->
+<div class="card">
+<h2>🧠 Concept</h2>
+<p>
+A Summing Amplifier is an extension of the inverting amplifier that allows <b>multiple input signals</b> to be combined into a single output.
+Each input contributes to the final output voltage.
+</p>
+</div>
+
+<!-- WORKING -->
+<div class="card">
+<h2>⚙️ Working Principle</h2>
+<ul>
+<li>Multiple inputs are applied through separate resistors</li>
+<li>All currents combine at the inverting node</li>
+<li>Op-Amp maintains <b>virtual ground</b></li>
+<li>Output is proportional to the sum of input currents</li>
+</ul>
+</div>
+
+<!-- FORMULA -->
+<div class="card">
+<h2>📐 Formula</h2>
+<p class="highlight">Vout = -(Rf/R1·V1 + Rf/R2·V2 + Rf/R3·V3 + ...)</p>
+</div>
+
+<!-- SPECIAL CASE -->
+<div class="card">
+<h2>📊 Special Case (Equal Resistors)</h2>
+<p>
+If all input resistors are equal:
+</p>
+
+<p class="highlight">Vout = -(V1 + V2 + V3 + ...)</p>
+</div>
+
+<!-- CURRENT FLOW -->
+<div class="card">
+<h2>🔌 Current Flow Insight</h2>
+<p>
+Each input produces a current:
+</p>
+
+<ul>
+<li>I1 = V1 / R1</li>
+<li>I2 = V2 / R2</li>
+<li>I3 = V3 / R3</li>
+</ul>
+
+<p>
+All currents add and flow through feedback resistor:
+</p>
+
+<p class="highlight">I_total = I1 + I2 + I3</p>
+</div>
+
+<!-- WEIGHTED SUM -->
+<div class="card">
+<h2>⚖️ Weighted Summation</h2>
+<p>
+By choosing different resistor values, each input can have different weight:
+</p>
+
+<ul>
+<li>Higher resistor → lower contribution</li>
+<li>Lower resistor → higher contribution</li>
+</ul>
+
+<p>
+This allows controlled signal mixing.
+</p>
+</div>
+
+<!-- ADVANCED -->
+<div class="card">
+<h2>🧪 Advanced Insight</h2>
+<ul>
+<li>Acts as analog adder</li>
+<li>Foundation of Digital-to-Analog Converters (DAC)</li>
+<li>Maintains linearity due to feedback</li>
+<li>Supports multiple input channels</li>
+</ul>
+</div>
+
+<!-- APPLICATIONS -->
+<div class="card">
+<h2>🌍 Applications</h2>
+<ul>
+<li>Audio mixing consoles 🎧</li>
+<li>Signal blending</li>
+<li>Analog computers</li>
+<li>DAC circuits</li>
+</ul>
+</div>
+
+<!-- VISUAL IDEA -->
+<div class="card">
+<h2>📈 Signal Behavior</h2>
+
+<div style="display:flex;justify-content:space-between;">
+<div>Input 1 → 📈</div>
+<div>Input 2 → 📉</div>
+<div>Output → Combined signal</div>
+</div>
+
+</div>
+
+<!-- SIMULATION -->
+<div class="card">
+<h2>🔬 Simulation</h2>
+
+<iframe src="https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EJhqAG4QhqALaYhAUwC0SFAD4AUFCjAA8lAAeiACyMqUGiyjnO7G61TwEIqBnLuEAel36wABKphR0TlRU5lBIVHaR5q44qADublSucgg0igCGJtKIGf56BiFmyOEx7NgxcdUebh5pFJlFBHkF8iWB0BVIVQk25rUJST5QWZQdPQZ9RSMNMVVINeMeU4R+AQYpodmLSJzWUaNR69ulwHsVpzHHw7Wrjcmz1-txdkcnh8cXbwBzD4seJ0E4gqDMRKwV47d63CFDT42MH-OHzbIQ2J2SzWbEXSYULZvG4WKzOHHk-Ewnwk4FferI75oq65ekU+zk2wEhS5CgkKAKMCIDQCgF85CEGa6YC+cAQXRAA"></iframe>
+
+</div>
+
+`;
+}
+
+/* DIFFERENTIAL */
+if(type==="diff"){
+html=`
+
+<h1>⚖️ Differential Amplifier</h1>
+
+<!-- THEORY -->
+<div class="card">
+<h2>🧠 Concept</h2>
+<p>
+A Differential Amplifier amplifies the <b>difference between two input signals</b> while rejecting any signal common to both inputs.
+This makes it extremely useful in real-world noisy environments.
+</p>
+</div>
+
+<!-- WORKING -->
+<div class="card">
+<h2>⚙️ Working Principle</h2>
+<ul>
+<li>Two inputs are applied: V1 and V2</li>
+<li>Op-Amp amplifies (V2 - V1)</li>
+<li>Common signals present on both inputs are rejected</li>
+<li>Resistor network ensures balanced operation</li>
+</ul>
+</div>
+
+<!-- FORMULA -->
+<div class="card">
+<h2>📐 Formula</h2>
+<p class="highlight">Vout = (R2 / R1) × (V2 - V1)</p>
+</div>
+
+<!-- BALANCE CONDITION -->
+<div class="card">
+<h2>⚖️ Balance Condition</h2>
+<p>
+For accurate operation:
+</p>
+
+<p class="highlight">R2/R1 = R4/R3</p>
+
+<p>
+This ensures proper differential amplification and noise rejection.
+</p>
+</div>
+
+<!-- CMRR -->
+<div class="card">
+<h2>🛡️ Common Mode Rejection</h2>
+<p>
+Differential amplifiers reject unwanted noise signals that appear equally on both inputs.
+</p>
+
+<ul>
+<li>Desired signal → amplified</li>
+<li>Noise (common signal) → rejected</li>
+</ul>
+
+<p>
+This property is called <b>CMRR (Common Mode Rejection Ratio)</b>.
+</p>
+</div>
+
+<!-- SIGNAL TYPES -->
+<div class="card">
+<h2>📊 Signal Types</h2>
+<ul>
+<li><b>Differential Signal:</b> Difference between inputs</li>
+<li><b>Common Signal:</b> Same signal on both inputs</li>
+</ul>
+</div>
+
+<!-- ADVANCED -->
+<div class="card">
+<h2>🧪 Advanced Insight</h2>
+<ul>
+<li>Used as input stage in most amplifiers</li>
+<li>Foundation of instrumentation amplifiers</li>
+<li>Highly noise-resistant design</li>
+<li>Critical in precision measurement systems</li>
+</ul>
+</div>
+
+<!-- REAL WORLD -->
+<div class="card">
+<h2>🌍 Real-World Importance</h2>
+<ul>
+<li>Biomedical signals (ECG, EEG)</li>
+<li>Sensor signal processing</li>
+<li>Industrial measurement systems</li>
+<li>Communication circuits</li>
+</ul>
+</div>
+
+<!-- VISUAL -->
+<div class="card">
+<h2>📈 Signal Visualization</h2>
+
+<div style="display:flex;justify-content:space-between;">
+<div>V1 → 📈</div>
+<div>V2 → 📉</div>
+<div>Output → Difference</div>
+</div>
+
+</div>
+
+<!-- SIMULATION -->
+<div class="card">
+<h2>🔬 Simulation</h2>
+
+<iframe src="https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EJhqAG4QhqALaYhAUwC0SFAD4AUFCjAA5lAAeFTlShUi7KEgtRmAFlTwEIgPS79wUafOWNCx2DtbsrjiKKpFQGOTuqBDRCV56BgBK-shUwUFQnLZBEQlQAO5uKLByCOwiUAoAhibS8qk+0ln2gax2OVasxXXliFSu1Ug0ik0tyAhtBgDyWU6Mll1QTgUho7AxcZHzwJlmyA6aa33ng6jDs1WItVPNrd4G0Cc5uT3rRbsl44Q5q8jFlPlYbFYWMFnNdDu8RlD+rlEWFrlAAQQgWlgPDTmsJpDglc-nUMZ5gbiwecNqs7BM0WSsT5SstaesVvidm5ydiWR9EdSqXRwiSmQYGqCBQ4Ods0Y0KCR6mBEBpFYYGhRCJjUsAPOAILogA"></iframe>
+
+</div>
+
+`;
+}
+
+/* INTEGRATOR */
+if(type==="int"){
+html=`
+
+<h1>📈 Integrator</h1>
+
+<!-- THEORY -->
+<div class="card">
+<h2>🧠 Concept</h2>
+<p>
+An Integrator circuit produces an output proportional to the <b>integral (area under the curve)</b> of the input signal.
+It is a fundamental building block in analog signal processing and mathematical computation.
+</p>
+</div>
+
+<!-- WORKING -->
+<div class="card">
+<h2>⚙️ Working Principle</h2>
+<ul>
+<li>Input signal is applied through a resistor</li>
+<li>A capacitor is used in the feedback path</li>
+<li>Op-Amp maintains <b>virtual ground</b></li>
+<li>Output continuously accumulates input signal over time</li>
+</ul>
+</div>
+
+<!-- FORMULA -->
+<div class="card">
+<h2>📐 Formula</h2>
+<p class="highlight">Vout = - (1 / RC) ∫ Vin dt</p>
+</div>
+
+<!-- SIGNAL TRANSFORMATION -->
+<div class="card">
+<h2>📊 Signal Transformation</h2>
+
+<ul>
+<li>Square wave → Triangle wave</li>
+<li>Constant input → Ramp output</li>
+<li>Sine wave → Phase shifted cosine</li>
+</ul>
+
+</div>
+
+<!-- TIME BEHAVIOR -->
+<div class="card">
+<h2>⏳ Time Domain Insight</h2>
+<p>
+The output voltage depends on how long the input is applied:
+</p>
+
+<ul>
+<li>Longer input → larger output</li>
+<li>Faster change → steeper slope</li>
+</ul>
+
+</div>
+
+<!-- CAPACITOR ROLE -->
+<div class="card">
+<h2>🔋 Role of Capacitor</h2>
+<p>
+The capacitor stores charge and integrates the input signal:
+</p>
+
+<ul>
+<li>Charge accumulates over time</li>
+<li>Voltage across capacitor increases gradually</li>
+<li>This creates smooth output waveform</li>
+</ul>
+</div>
+
+<!-- ADVANCED -->
+<div class="card">
+<h2>🧪 Advanced Insight</h2>
+<ul>
+<li>Acts as low-pass filter</li>
+<li>High-frequency signals are attenuated</li>
+<li>Important in analog computing systems</li>
+<li>Used in waveform generation circuits</li>
+</ul>
+</div>
+
+<!-- LIMITATIONS -->
+<div class="card">
+<h2>⚠️ Practical Limitations</h2>
+<ul>
+<li>Output saturation due to DC offset</li>
+<li>Drift over time</li>
+<li>Requires proper component selection</li>
+</ul>
+</div>
+
+<!-- APPLICATIONS -->
+<div class="card">
+<h2>🌍 Applications</h2>
+<ul>
+<li>Waveform generation</li>
+<li>Analog computers</li>
+<li>Signal smoothing</li>
+<li>Control systems</li>
+</ul>
+</div>
+
+<!-- VISUAL -->
+<div class="card">
+<h2>📈 Visualization</h2>
+
+<div style="display:flex;justify-content:space-between;">
+<div>Input: ▄▄▄ ▄▄▄ (square)</div>
+<div>Output: /\\/\\/ (triangle)</div>
+</div>
+
+</div>
+
+<!-- SIMULATION -->
+<div class="card">
+<h2>🔬 Simulation</h2>
+
+<iframe src="https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EJhqAG4QhqALaYhAUwC0SFAD4AUFCjBoADwpUWUFtihJOVCyNg5Uc5IQQB6XfuAB3KCYROdntrM3tUeAQRTz0DPwCkMKoqABZrWyhklIinGO94xCDM1NDzLJyojy8DUX9TMpLE80sKhwUVJygMckqoCA7KvINpOsDgpBS0opbHXp9IqgiXGYUAQyNpREWh4BGAoqyoIons2Yd5raXEFLb1zckxAAtVjBUAZUewGDRERlwJpBEWzsIiMIgsHicRhVWLAADyo0YjHG7CsNysSFRrVQ3Vy1VAoxsdk0diR40S2KgPTwhGILFI9xp2BQXRcDmkABNEGo-uxUilAewiUQUkR2OxeDtVoSMpirGTrFizopVhQSFAFGBuYDUABzVWuWkw-Iy4l0cYZcrKnYFZCyxLpYmTbE200hInWCnW-G2hUkqB+pWRaL43WjA4lA50RbenTAdzgCC6IA"></iframe>
+
+</div>
+
+`;
+}
+
+/* APPLICATIONS */
+if(type==="apps"){
+html=`
+
+<h1>🌍 Real-World Applications of Op-Amps</h1>
+
+<!-- INTRO -->
+<div class="card">
+<h2>🚀 Overview</h2>
+<p>
+Operational Amplifiers are one of the most widely used components in electronics.
+They are used in <b>audio systems, medical devices, communication systems, and industrial automation</b>.
+</p>
+</div>
+
+<!-- GRID APPLICATIONS -->
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;">
+
+<div class="card">
+<h3>🎧 Audio Amplifiers</h3>
+<p>
+Used in speakers, headphones, and music systems to amplify weak audio signals into powerful output.
+</p>
+</div>
+
+<div class="card">
+<h3>🏥 Medical Equipment</h3>
+<p>
+Used in ECG, EEG machines to amplify very small biological signals for accurate diagnosis.
+</p>
+</div>
+
+<div class="card">
+<h3>📡 Communication Systems</h3>
+<p>
+Used in signal modulation, filtering, and transmission systems for reliable communication.
+</p>
+</div>
+
+<div class="card">
+<h3>⚙️ Sensor Signal Processing</h3>
+<p>
+Amplifies signals from temperature, pressure, and light sensors for accurate measurement.
+</p>
+</div>
+
+<div class="card">
+<h3>🎚️ Active Filters</h3>
+<p>
+Used to remove noise and unwanted frequencies in audio and communication systems.
+</p>
+</div>
+
+<div class="card">
+<h3>💻 Analog Computers</h3>
+<p>
+Used for mathematical operations like integration, differentiation, and summation.
+</p>
+</div>
+
+</div>
+
+<!-- CIRCUIT BASED APPLICATION -->
+<div class="card">
+<h2>🔗 Circuit-Based Applications</h2>
+
+<ul>
+<li><b>Inverting Amplifier:</b> Signal inversion and processing</li>
+<li><b>Non-Inverting Amplifier:</b> Signal boosting without phase change</li>
+<li><b>Summing Amplifier:</b> Audio mixing and DAC circuits</li>
+<li><b>Differential Amplifier:</b> Noise reduction and measurement systems</li>
+<li><b>Integrator:</b> Waveform generation and smoothing</li>
+</ul>
+
+</div>
+
+<!-- INDUSTRIAL -->
+<div class="card">
+<h2>🏭 Industrial Applications</h2>
+
+<ul>
+<li>Automation systems</li>
+<li>Control systems</li>
+<li>Robotics circuits</li>
+<li>Power regulation</li>
+</ul>
+
+</div>
+
+<!-- WHY IMPORTANT -->
+<div class="card">
+<h2>🎯 Why Op-Amps are Important?</h2>
+
+<p>
+Op-Amps are the backbone of analog electronics.
+They allow precise control, amplification, and processing of signals in real-world systems.
+</p>
+
+<p>
+Almost every electronic device you use today depends on Op-Amps in some form.
+</p>
+
+</div>
+
+<!-- FUTURE -->
+<div class="card">
+<h2>🚀 Future Scope</h2>
+
+<ul>
+<li>AI hardware systems</li>
+<li>Advanced robotics</li>
+<li>Biomedical engineering</li>
+<li>Smart sensors and IoT</li>
+</ul>
+
+</div>
+
+`;
+}
+
+/* DOCUMENTATION */
+if(type==="docs"){
+html=`
+
+<h1>📚 Op-Amp Documentation</h1>
+
+<!-- INTRO -->
+<div class="card">
+<h2>🧠 Overview</h2>
+<p>
+This documentation summarizes all important concepts, formulas, and insights related to Operational Amplifiers covered in this virtual lab.
+</p>
+</div>
+
+<!-- FORMULAS -->
+<div class="card">
+<h2>📐 Important Formulas</h2>
+
+<ul>
+<li><b>Inverting Amplifier:</b> Vout = -(Rf / Rin) × Vin</li>
+<li><b>Non-Inverting Amplifier:</b> Vout = (1 + Rf / R1) × Vin</li>
+<li><b>Summing Amplifier:</b> Vout = -(V1 + V2 + V3 + ...)</li>
+<li><b>Differential Amplifier:</b> Vout = (R2 / R1)(V2 - V1)</li>
+<li><b>Integrator:</b> Vout = - (1 / RC) ∫ Vin dt</li>
+</ul>
+
+</div>
+
+<!-- KEY CONCEPTS -->
+<div class="card">
+<h2>📊 Key Concepts</h2>
+
+<ul>
+<li>Voltage Gain</li>
+<li>Phase Shift (0° / 180°)</li>
+<li>Virtual Ground</li>
+<li>Feedback Mechanism</li>
+<li>Signal Processing</li>
+</ul>
+
+</div>
+
+<!-- COMPARISON -->
+<div class="card">
+<h2>⚖️ Circuit Comparison</h2>
+
+<table style="width:100%;text-align:center;border-collapse:collapse;">
+<tr style="background:#1e293b;">
+<th>Type</th>
+<th>Phase</th>
+<th>Gain</th>
+<th>Use</th>
+</tr>
+
+<tr>
+<td>Inverting</td>
+<td>180°</td>
+<td>Negative</td>
+<td>Signal processing</td>
+</tr>
+
+<tr>
+<td>Non-Inverting</td>
+<td>0°</td>
+<td>Positive</td>
+<td>Amplification</td>
+</tr>
+
+<tr>
+<td>Summing</td>
+<td>180°</td>
+<td>Multiple inputs</td>
+<td>Mixing</td>
+</tr>
+
+<tr>
+<td>Differential</td>
+<td>Depends</td>
+<td>Difference</td>
+<td>Noise removal</td>
+</tr>
+
+<tr>
+<td>Integrator</td>
+<td>Phase shift</td>
+<td>Time-based</td>
+<td>Wave shaping</td>
+</tr>
+
+</table>
+
+</div>
+
+<!-- IMPORTANT POINTS -->
+<div class="card">
+<h2>⚠️ Important Points</h2>
+
+<ul>
+<li>Op-Amp amplifies difference between inputs</li>
+<li>Feedback stabilizes circuit</li>
+<li>Ideal Op-Amp has infinite gain</li>
+<li>No current enters input terminals (ideal case)</li>
+<li>Output limited by power supply</li>
+</ul>
+
+</div>
+
+<!-- ADVANCED -->
+<div class="card">
+<h2>🧪 Advanced Insights</h2>
+
+<ul>
+<li>CMRR improves noise rejection</li>
+<li>Bandwidth inversely proportional to gain</li>
+<li>Feedback increases stability</li>
+<li>Widely used in analog + mixed signal systems</li>
+</ul>
+
+</div>
+
+<!-- SUMMARY -->
+<div class="card">
+<h2>🎯 Final Summary</h2>
+
+<p>
+Operational Amplifiers are essential building blocks in electronics.  
+Understanding their behavior allows engineers to design complex systems such as filters, amplifiers, and signal processors.
+</p>
+
+<p>
+This virtual lab provides a complete conceptual and practical understanding of Op-Amps.
+</p>
+
+</div>
+
+`;
+}
+
+document.getElementById("content").innerHTML = html;
+
+}
+
+</script>
+
+</body>
+</html>
